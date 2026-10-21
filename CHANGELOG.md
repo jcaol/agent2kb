@@ -6,6 +6,13 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.5] - 2026-10-21
+
+### Changed
+
+- CI: the macOS job is advisory (`continue-on-error`), because hosted macOS runners are often
+  short of capacity; Linux jobs remain the required checks.
+
 ## [0.3.4] - 2026-10-21
 
 ### Fixed

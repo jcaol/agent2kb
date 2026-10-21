@@ -38,8 +38,12 @@ jobs:
 
   macos:
     # The README targets macOS as well as Linux; run the suite there on one Python version.
-    name: macOS, Python 3.12
+    # Advisory: hosted macOS runners are often short of capacity, so a queued or failed run
+    # here does not fail the workflow. Do not make this job a required status check.
+    name: macOS, Python 3.12 (advisory)
     runs-on: macos-latest
+    continue-on-error: true
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
