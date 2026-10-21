@@ -38,7 +38,7 @@ from loguru import logger
 # is informational, not a compatibility gate. Tracks the agent2kb minor
 # version that shipped the template so a quick ``grep "v"`` on
 # PROJECT.md tells you whether a profile is on the current rules.
-TEMPLATE_VERSION = "0.3.5"
+TEMPLATE_VERSION = "0.3.6"
 
 _TEMPLATE_PATH = Path(__file__).parent / "scaffold_templates" / "project_rules.md"
 

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agent2kb"
-version = "0.3.5"
+version = "0.3.6"
 description = "A headless knowledge compiler for agent teams: ingests sources, compiles them into an interlinked Markdown wiki with an LLM, and serves queries over S3-compatible storage."
 readme = "README.md"
 requires-python = ">=3.10"

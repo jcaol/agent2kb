@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.6] - 2026-10-21
+
+### Changed
+
+- CI: the macOS test run moved to its own workflow (`.github/workflows/macos.yml`) that runs
+  only when started by hand. Hosted macOS runners that could not be acquired left a cancelled
+  check on every commit even with `continue-on-error`.
+
 ## [0.3.5] - 2026-10-21
 
 ### Changed
