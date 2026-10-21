@@ -18,6 +18,19 @@ PROJECT=a2kb-e2e
 ENVFILE=.env.e2e
 dc() { docker compose -p "$PROJECT" --env-file "$ENVFILE" "$@"; }
 kbx() { dc exec -T kb "$@"; }
+# Run a command in the kb container, show its output, and require a pattern in it. The
+# output is captured first: in `cmd | grep -q`, grep exits at the first match, the writer
+# gets SIGPIPE, and pipefail turns that into a failure even though the pattern was there.
+expect_kb() {
+    local pattern=$1 msg=$2 out rc=0
+    shift 2
+    out=$(kbx "$@" 2>&1) || rc=$?
+    printf '%s\n' "$out"
+    [ "$rc" -eq 0 ] || fail "$msg (exit $rc)"
+    grep -q -- "$pattern" <<<"$out" || fail "$msg"
+}
+# The same for any text already captured (curl responses).
+expect_in() { grep -q -- "$1" <<<"$3" || fail "$2"; }
 step() { printf '\n==> %s\n' "$*"; }
 fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 
@@ -106,7 +119,7 @@ ENDPOINT=$(field Endpoint); AK=$(field 'Access Key ID'); SK=$(field 'Secret Acce
 BUCKET=$(field 'Bucket Name'); PREFIX=$(field 'Change The Remote Prefix' | awk '{print $1}')
 [ "$ENDPOINT" = "http://127.0.0.1:8333" ] || fail "unexpected endpoint '$ENDPOINT'"
 [ -n "$AK" ] && [ -n "$SK" ] && [ "$PREFIX" = "kbs/research/" ] || fail "incomplete settings"
-printf '%s\n' "$OBS" | grep -q 'phone' || fail "no loopback warning"
+expect_in 'phone' "no loopback warning" "$OBS"
 kbx a2kb connect obsidian research | grep -q "$SK" && fail "secret printed without --show-secret"
 
 step "the Obsidian key, from the host: list/put/get/delete inside its prefix, nothing outside"
@@ -192,7 +205,7 @@ PY
 step "a2kb doctor and ingest inside the container"
 kbx a2kb -p research doctor --read-only
 kbx a2kb -p research ingest --url https://example.com
-kbx a2kb -p research status | grep -q 'Raw files' || fail "status"
+expect_kb 'Raw files' "status" a2kb -p research status
 
 step "the generated crontab is valid and names no model"
 kbx cat /home/kb/.kb/crontab.generated
@@ -215,10 +228,11 @@ SID=$(curl -s -D - -o /dev/null -X POST "$URL" "${H[@]}" -d \
 curl -s -o /dev/null -X POST "$URL" "${H[@]}" -H "mcp-session-id: $SID" \
     -d '{"jsonrpc":"2.0","method":"notifications/initialized"}'
 call() { curl -s -X POST "$URL" "${H[@]}" -H "mcp-session-id: $SID" -d "$1"; }
-call '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"search","arguments":{"query":"knowledge base"}}}' \
-    | tee /dev/stderr | grep -q 'wiki/index.md' || fail "search found nothing"
-call '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"list_recent","arguments":{"kind":"raw"}}}' \
-    | grep -q 'Example-Domain' || fail "the ingested page is not visible over MCP"
+RESP=$(call '{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"search","arguments":{"query":"knowledge base"}}}')
+printf '%s\n' "$RESP" >&2
+expect_in 'wiki/index.md' "search found nothing" "$RESP"
+RESP=$(call '{"jsonrpc":"2.0","id":3,"method":"tools/call","params":{"name":"list_recent","arguments":{"kind":"raw"}}}')
+expect_in 'Example-Domain' "the ingested page is not visible over MCP" "$RESP"
 
 step "adding a KB: edit KB_NAMES, docker compose up -d (no restart by hand)"
 BEFORE_AK=$NAK
@@ -227,12 +241,12 @@ dc up -d
 wait_for kb-provision '^exited 0' 240
 wait_for seaweedfs 'healthy$' 180
 wait_for kb 'running 0 (healthy|starting)' 120
-kbx a2kb list | grep -q work || fail "KB 'work' was not created"
+expect_kb work "KB 'work' was not created" a2kb list
 kbx a2kb -p work doctor --read-only
 kbx a2kb -p work ingest --url https://example.com
 AK_AFTER=$(kbx a2kb connect obsidian research --show-secret | sed -n 's/^  Access Key ID  *//p')
 [ "$AK_AFTER" = "$BEFORE_AK" ] || fail "the research key changed"
-kbx a2kb -p research status | grep -q 'Raw files' || fail "research lost its data"
+expect_kb 'Raw files' "research lost its data" a2kb -p research status
 # the kb container was recreated by `up` and generated its crontab again at start
 kbx grep -q '/data/work work' /home/kb/.kb/crontab.generated || fail "crontab lacks the new KB"
 

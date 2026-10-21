@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.4] - 2026-10-21
+
+### Fixed
+
+- `scripts/docker-e2e.sh` no longer checks output with `command | grep -q` under `pipefail`,
+  which could fail a passing step when grep exited early; each check now captures the
+  output, prints it, and reports the command's exit code when it fails.
+
 ## [0.3.3] - 2026-10-21
 
 ### Fixed
