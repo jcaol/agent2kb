@@ -1,0 +1,82 @@
+"""Language data for search that does not fit the prompt table in :mod:`agent2kb.language`.
+
+``ZH_CROSS_LANG_DICT`` is a built-in English ↔ Chinese dictionary of common tech and
+business terms for instant bilingual query expansion (no LLM call). Both sides are
+looked up for every KB, but :func:`agent2kb.language.keep_expansion_term` keeps the
+Chinese equivalents only when the KB language is Chinese (``zh-*``); other KBs keep only
+the English side. Keys are lowercase; values are the other-language equivalents.
+"""
+
+ZH_CROSS_LANG_DICT: dict[str, list[str]] = {
+    # Business / Strategy
+    "business model": ["商業模式"],
+    "商業模式": ["business model"],
+    "subscription": ["訂閱", "訂閱制"],
+    "訂閱": ["subscription"],
+    "訂閱制": ["subscription"],
+    "advertising": ["廣告", "廣告模式"],
+    "廣告": ["advertising", "ads"],
+    "revenue": ["收入", "營收"],
+    "收入": ["revenue"],
+    "營收": ["revenue"],
+    "startup": ["初創", "創業"],
+    "初創": ["startup"],
+    "創業": ["startup"],
+    "competition": ["競爭"],
+    "競爭": ["competition"],
+    "strategy": ["策略"],
+    "策略": ["strategy"],
+    "trust": ["信任", "可信度"],
+    "信任": ["trust"],
+    "可信度": ["credibility", "trust"],
+    # AI / ML
+    "machine learning": ["機器學習"],
+    "機器學習": ["machine learning"],
+    "artificial intelligence": ["人工智能", "ai"],
+    "人工智能": ["artificial intelligence", "ai"],
+    "knowledge base": ["知識庫"],
+    "知識庫": ["knowledge base"],
+    "embedding": ["向量嵌入"],
+    "向量嵌入": ["embedding"],
+    "prompt": ["提示詞"],
+    "提示詞": ["prompt"],
+    "fine-tuning": ["微調"],
+    "微調": ["fine-tuning"],
+    "inference": ["推理"],
+    "推理": ["inference"],
+    "training": ["訓練"],
+    "訓練": ["training"],
+    "model": ["模型"],
+    "模型": ["model"],
+    # Tools / Platforms
+    "download": ["下載"],
+    "下載": ["download"],
+    "converter": ["轉換器", "轉換"],
+    "轉換": ["converter", "convert"],
+    "open source": ["開源"],
+    "開源": ["open source"],
+    "privacy": ["私隱", "隱私"],
+    "私隱": ["privacy"],
+    "隱私": ["privacy"],
+    "security": ["安全", "保安"],
+    "安全": ["security", "safety"],
+    "deployment": ["部署"],
+    "部署": ["deployment", "deploy"],
+    "database": ["數據庫", "資料庫"],
+    "數據庫": ["database"],
+    "資料庫": ["database"],
+    "search engine": ["搜尋引擎"],
+    "搜尋引擎": ["search engine"],
+    # Media
+    "video": ["影片", "視頻"],
+    "影片": ["video"],
+    "視頻": ["video"],
+    "audio": ["音頻", "音訊"],
+    "音頻": ["audio"],
+    "音訊": ["audio"],
+    "article": ["文章"],
+    "文章": ["article"],
+    "tutorial": ["教學", "教程"],
+    "教學": ["tutorial"],
+    "教程": ["tutorial"],
+}

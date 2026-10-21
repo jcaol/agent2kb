@@ -1,0 +1,57 @@
+name: Docker backend (end to end)
+
+# Builds the image and runs the whole stack with `docker compose up`, then checks it the
+# way a user would: connect Obsidian, doctor, ingest, MCP over HTTP with the generated
+# token, adding a KB, a second `up`. The steps live in scripts/docker-e2e.sh so they can be
+# run locally too. No LLM is called.
+
+on:
+  push:
+    branches: [main, master]
+    paths:
+      - Dockerfile
+      - docker-compose*.yml
+      - docker/**
+      - agent2kb/**
+      - scripts/**
+      - pyproject.toml
+      - .env.example
+      - .github/workflows/docker-e2e.yml
+  pull_request:
+    paths:
+      - Dockerfile
+      - docker-compose*.yml
+      - docker/**
+      - agent2kb/**
+      - scripts/**
+      - pyproject.toml
+      - .env.example
+      - .github/workflows/docker-e2e.yml
+  schedule:
+    - cron: "17 5 * * 1" # weekly: catches base-image and dependency drift
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: docker-e2e-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  e2e:
+    name: docker compose up
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069 # v4.4.1
+      - name: Show versions
+        run: |
+          docker version
+          docker compose version
+          curl --version | head -1
+      - name: Backend end-to-end
+        run: scripts/docker-e2e.sh

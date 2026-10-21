@@ -1,0 +1,111 @@
+[build-system]
+requires = ["setuptools>=77.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agent2kb"
+version = "0.3.2"
+description = "A headless knowledge compiler for agent teams: ingests sources, compiles them into an interlinked Markdown wiki with an LLM, and serves queries over S3-compatible storage."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+authors = [{name = "The agent2kb authors"}]
+keywords = [
+    "knowledge-base", "llm", "wiki", "markdown", "obsidian", "s3", "cli",
+    "agents", "mcp", "rag", "second-brain",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing",
+    "Topic :: Utilities",
+]
+
+# Core: what every command needs. Provider SDKs and media tooling are extras;
+# each is imported lazily and a missing one says which extra to install.
+dependencies = [
+    "typer>=0.9.0",
+    "click>=8.0",
+    "rich>=13.0",
+    "boto3>=1.28",
+    "pydantic>=2.4",
+    "pyyaml>=6.0",
+    "loguru>=0.7",
+    "httpx>=0.25",
+    "beautifulsoup4>=4.12",
+    "markdownify>=0.14.1",
+    "readability-lxml>=0.8",
+    "opencc-python-reimplemented>=0.1.7",
+]
+
+[project.optional-dependencies]
+# LLM providers (the `claude` / `codex` CLI providers need no Python package)
+groq = ["groq>=0.4"]
+openai = ["openai>=1.0"]  # OpenAI embeddings and the OpenRouter provider
+ollama = ["ollama>=0.1"]
+gemini = ["google-genai>=1.0"]
+# Embeddings / rerank, and faster vector search
+voyage = ["voyageai>=0.2"]
+fast = ["numpy>=1.24"]
+# Ingest: PDF, .docx and .xlsx documents and video URLs. Also needs ffmpeg on PATH (pandoc
+# only for other document formats).
+media = ["yt-dlp>=2024.0", "python-docx>=1.0", "openpyxl>=3.1", "pypdf>=6.19"]
+# Local audio/video transcription. Heavy (CTranslate2 + ONNX runtime), so not in `all`.
+whisper = ["faster-whisper>=1.0"]
+# `a2kb mcp` server
+mcp = ["mcp>=1.30,!=2.0.*,!=2.1.*,<3"]
+# Everything except `whisper`
+all = [
+    "agent2kb[groq,openai,ollama,gemini,voyage,fast,media,mcp]",
+]
+dev = [
+    "pytest>=7.0",
+    "pytest-cov>=4.0",
+    "ruff>=0.1",
+    "moto[s3,server]>=5.0",
+]
+
+[project.urls]
+Homepage = "https://agent2kb.com"
+Documentation = "https://github.com/jcaol/agent2kb/tree/main/docs"
+Repository = "https://github.com/jcaol/agent2kb"
+Issues = "https://github.com/jcaol/agent2kb/issues"
+Changelog = "https://github.com/jcaol/agent2kb/blob/main/CHANGELOG.md"
+
+[project.scripts]
+a2kb = "agent2kb.main:app"
+
+[tool.setuptools.packages.find]
+include = ["agent2kb*"]
+
+[tool.setuptools.package-data]
+agent2kb = ["scaffold_templates/*.md"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+
+[tool.ruff.lint.per-file-ignores]
+"agent2kb/compile/schema.py" = ["E501"]
+"agent2kb/language.py" = ["E501"]
+"agent2kb/main.py" = ["E501"]
+"agent2kb/skeleton.py" = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

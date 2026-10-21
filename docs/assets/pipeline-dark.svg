@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" width="1200" height="600" role="img" aria-label="How agent2kb works: collect sources with a2kb ingest into raw/, compile them with an LLM into wiki/, and read the wiki from agents (CLI, MCP) and people (Obsidian); saved answers feed the next compile">
+<title>How agent2kb works: collect sources with a2kb ingest into raw/, compile them with an LLM into wiki/, and read the wiki from agents (CLI, MCP) and people (Obsidian); saved answers feed the next compile</title>
+<defs>
+<marker id="ah-s" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#9198a1"/></marker>
+<marker id="ah-d" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#fb923c"/></marker>
+</defs>
+<circle cx="62" cy="34" r="20" fill="#818cf8"/>
+<text x="62" y="42" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">1</text>
+<text x="94" y="43" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="800" fill="#818cf8" text-anchor="start">COLLECT</text>
+<circle cx="462" cy="34" r="20" fill="#818cf8"/>
+<text x="462" y="42" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+<text x="494" y="43" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="800" fill="#818cf8" text-anchor="start">COMPILE</text>
+<circle cx="862" cy="34" r="20" fill="#818cf8"/>
+<text x="862" y="42" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" font-weight="700" fill="#ffffff" text-anchor="middle">3</text>
+<text x="894" y="43" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="24" font-weight="800" fill="#818cf8" text-anchor="start">USE</text>
+<rect x="40" y="74" width="320" height="252" rx="18" fill="#151b23" stroke="#3d444d" stroke-width="2.5"/>
+<text x="64" y="116" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#f0f6fc" text-anchor="start">Agents · bots · you</text>
+<rect x="64" y="140" width="54" height="36" rx="18" fill="#1e1b4b"/>
+<text x="91.0" y="165" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#c7d2fe" text-anchor="middle">URL</text>
+<rect x="158" y="140" width="138" height="36" rx="18" fill="#1e1b4b"/>
+<text x="227.0" y="165" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#c7d2fe" text-anchor="middle">PDF / DOCX</text>
+<rect x="64" y="188" width="78" height="36" rx="18" fill="#1e1b4b"/>
+<text x="103.0" y="213" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#c7d2fe" text-anchor="middle">video</text>
+<rect x="160" y="188" width="78" height="36" rx="18" fill="#1e1b4b"/>
+<text x="199.0" y="213" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#c7d2fe" text-anchor="middle">audio</text>
+<rect x="256" y="188" width="78" height="36" rx="18" fill="#1e1b4b"/>
+<text x="295.0" y="213" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#c7d2fe" text-anchor="middle">image</text>
+<rect x="64" y="236" width="150" height="36" rx="18" fill="#1e1b4b"/>
+<text x="139.0" y="261" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="600" fill="#c7d2fe" text-anchor="middle">Web Clipper</text>
+<text x="200" y="306" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="22" font-weight="700" fill="#2dd4bf" text-anchor="middle">a2kb ingest</text>
+<path d="M150 368 v80 a105.0 16 0 0 0 210 0 v-80" fill="#0d1117" stroke="#2dd4bf" stroke-width="2.5"/>
+<ellipse cx="255.0" cy="368" rx="105.0" ry="16" fill="#151b23" stroke="#2dd4bf" stroke-width="2.5"/>
+<text x="255.0" y="418" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="26" font-weight="700" fill="#f0f6fc" text-anchor="middle">raw/</text>
+<text x="255.0" y="448" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#9198a1" text-anchor="middle">your sources</text>
+<line x1="200" y1="328" x2="200" y2="350" stroke="#9198a1" stroke-width="3" marker-end="url(#ah-s)"/>
+<polygon points="470,120 790,120 815,192 790,264 470,264 445,192" fill="#151b23" stroke="#818cf8" stroke-width="3"/>
+<text x="630" y="172" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="30" font-weight="800" fill="#f0f6fc" text-anchor="middle">a2kb compile</text>
+<text x="630" y="208" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#9198a1" text-anchor="middle">LLM · incremental · sandboxed</text>
+<text x="630" y="236" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="400" fill="#9198a1" text-anchor="middle">titles · summaries · tags · links</text>
+<text x="630" y="98" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="500" fill="#9198a1" text-anchor="middle">cron: compile · lint · backup · digest</text>
+<line x1="362" y1="408" x2="450" y2="220" stroke="#9198a1" stroke-width="3" marker-end="url(#ah-s)"/>
+<path d="M525 368 v80 a105.0 16 0 0 0 210 0 v-80" fill="#0d1117" stroke="#2dd4bf" stroke-width="2.5"/>
+<ellipse cx="630.0" cy="368" rx="105.0" ry="16" fill="#151b23" stroke="#2dd4bf" stroke-width="2.5"/>
+<text x="630.0" y="418" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="26" font-weight="700" fill="#f0f6fc" text-anchor="middle">wiki/</text>
+<text x="630.0" y="448" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="400" fill="#9198a1" text-anchor="middle">pages + [[links]]</text>
+<line x1="630" y1="266" x2="630" y2="348" stroke="#9198a1" stroke-width="3" marker-end="url(#ah-s)"/>
+<rect x="840" y="74" width="320" height="140" rx="18" fill="#151b23" stroke="#3d444d" stroke-width="2.5"/>
+<text x="866" y="116" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#f0f6fc" text-anchor="start">Agents</text>
+<text x="866" y="150" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" font-weight="600" fill="#2dd4bf" text-anchor="start">a2kb query · MCP</text>
+<text x="866" y="184" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#9198a1" text-anchor="start">Claude Code, Codex, bots</text>
+<rect x="840" y="236" width="320" height="140" rx="18" fill="#151b23" stroke="#3d444d" stroke-width="2.5"/>
+<text x="866" y="278" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="26" font-weight="700" fill="#f0f6fc" text-anchor="start">People</text>
+<text x="866" y="312" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="600" fill="#2dd4bf" text-anchor="start">Obsidian</text>
+<text x="866" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#9198a1" text-anchor="start">read · edit · Web Clipper</text>
+<line x1="737" y1="392" x2="836" y2="170" stroke="#9198a1" stroke-width="3" marker-end="url(#ah-s)"/>
+<line x1="737" y1="410" x2="836" y2="310" stroke="#9198a1" stroke-width="3" marker-end="url(#ah-s)"/>
+<rect x="840" y="398" width="320" height="92" rx="18" fill="#151b23" stroke="#fb923c" stroke-width="2.5" stroke-dasharray="8 7"/>
+<text x="866" y="436" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="20" font-weight="700" fill="#f0f6fc" text-anchor="start">outputs/  saved answers</text>
+<text x="866" y="468" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="19" font-weight="400" fill="#9198a1" text-anchor="start">fed back as derived context</text>
+<path d="M838 470 C 760 514, 520 514, 505 470 S 492 330, 498 270" fill="none" stroke="#fb923c" stroke-width="3" stroke-dasharray="9 8" marker-end="url(#ah-d)"/>
+<rect x="40" y="520" width="1120" height="56" rx="14" fill="#0d1117" stroke="#3d444d" stroke-width="2"/>
+<text x="600" y="556" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="20" font-weight="500" fill="#f0f6fc" text-anchor="middle">One isolated S3 prefix per KB  ·  your own bucket  ·  plain Markdown you can read, diff and back up</text>
+</svg>

@@ -1,0 +1,10 @@
+# agent2kb PROJECT-LEVEL pointer
+# Location: <your-project>/.kb/config.yaml   (`a2kb new <name> --here` writes it)
+#
+# It only says which KB from your user-level config this folder uses, so `a2kb` works here
+# (and in subfolders) without -p. It holds no secrets and is safe to commit.
+#
+# Do NOT put credentials in a project file. If one ever carries access_key, secret_key or an
+# API key, keep it out of version control (add `.kb/` to .gitignore) and move the secrets to
+# ~/.kb/config.yaml: agent2kb refuses a pointer that contains them.
+kb: research

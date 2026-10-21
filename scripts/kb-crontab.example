@@ -1,0 +1,50 @@
+# agent2kb scheduled tasks — template (for supercronic or a regular crontab)
+#
+# Copy this file to `scripts/kb-crontab` (gitignored) and customise the
+# project paths and profile names for your setup. The example uses two
+# fictitious projects, `alpha` and `beta`, each with its own .kb/config.yaml.
+#
+# The Docker image uses docker/crontab.example: the same jobs with container
+# paths. Keep the two in step.
+#
+# Run supercronic with:
+#   supercronic /path/to/agent2kb/scripts/kb-crontab
+#
+# Reload after editing without restarting:
+#   kill -USR2 $(pgrep supercronic)
+#
+# ───────────────────────────────────────────────────────────────────────
+
+# Compile: every 15 minutes. When nothing has changed, the fast path returns in
+# about two seconds without using any tokens; the LLM is used only when new raw
+# files exist.
+*/15 * * * * /path/to/agent2kb/scripts/kb-cron-compile.sh /path/to/alpha alpha
+*/15 * * * * /path/to/agent2kb/scripts/kb-cron-compile.sh /path/to/beta  beta
+
+# Lint: daily at 09:00. Structural checks only (no tokens are used).
+0 9 * * * /path/to/agent2kb/scripts/kb-cron-lint.sh /path/to/alpha alpha
+0 9 * * * /path/to/agent2kb/scripts/kb-cron-lint.sh /path/to/beta  beta
+
+# Backup: twice daily at 02:30 and 14:30. Archives to
+# <project>/.backups/<kb>-wiki-YYYY-MM-DD-HHMMSS-<random>.tar.gz (UTC; local, independent
+# of S3). Keeps the last 30 archives (about 15 days at two per day). Restore via
+# `a2kb restore --date ...`.
+30 2,14 * * * /path/to/agent2kb/scripts/kb-cron-backup.sh /path/to/alpha alpha
+30 2,14 * * * /path/to/agent2kb/scripts/kb-cron-backup.sh /path/to/beta  beta
+
+# Stubs: daily at 03:00 (after the 02:30 backup, before 09:00 lint).
+# Materialises ghost wikilinks (five or more mentions) as placeholder concept
+# pages, so that Obsidian readers do not reach "Create new page" prompts.
+# Idempotent: existing stubs are refreshed and real pages are never overwritten.
+0 3 * * * /path/to/agent2kb/scripts/kb-cron-stubs.sh /path/to/alpha alpha
+0 3 * * * /path/to/agent2kb/scripts/kb-cron-stubs.sh /path/to/beta  beta
+
+# Weekly digest: Sundays at 04:00 UTC. Scans the last seven days of
+# raw/wiki/concepts/outputs, asks the LLM CLI (codex; configurable with the
+# CODEX_BIN environment variable) for an insight digest of 500 to 1500 words,
+# then `a2kb promote` saves it to outputs/weekly/<YYYY>-W<NN>.md as a digest
+# entry. A run uses roughly 5,000 to 15,000 tokens and happens once a week, so
+# the cost is negligible. Stagger the runs across projects to avoid concurrent
+# load on codex and S3.
+0  4 * * 0 /path/to/agent2kb/scripts/kb-cron-digest.sh /path/to/alpha alpha
+30 4 * * 0 /path/to/agent2kb/scripts/kb-cron-digest.sh /path/to/beta  beta

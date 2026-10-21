@@ -1,0 +1,39 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Sensitive
+.env
+.env.*
+!.env.example
+*.key
+config.yaml
+config.yaml.bak
+*.bak
+.kb/
+
+# Local KB archives from `a2kb backup` (raw sources, pages and saved answers)
+.backups/
+
+# Runtime logs: supercronic scheduler output and the scripts/kb-cron-*.sh wrappers
+# (kb-compile.log, kb-backup.log, kb-digest.log), which can hold URLs, summaries and paths
+supercronic.log
+kb-*.log
+
+# User-specific live crontab (use scripts/kb-crontab.example as template,
+# then copy to scripts/kb-crontab and customise paths/profile-names).
+scripts/kb-crontab
+
+# Claude Code session-local state
+.claude/
+
+# Local review reports (may quote internal findings)
+CODEBASE_REVIEW_*.md

@@ -1,0 +1,223 @@
+# agent2kb backend in Docker: S3 storage (SeaweedFS), the scheduled compile/lint/backup jobs,
+# and an MCP server for your agents. Optional automatic HTTPS. Full guide: docs/docker.md
+#
+#   cp .env.example .env            # name your KBs (KB_NAMES), pick an LLM
+#   docker compose up -d
+#   docker compose exec kb a2kb connect obsidian research   # Remotely Save settings
+#   docker compose exec kb a2kb connect agent research --show-secret   # `claude mcp add ...` + token
+#   docker compose exec kb claude auth login              # once, if KB_LLM=claude
+#
+# What `up` does, in order:
+#   kb-init       generates the S3 keys, MCP tokens (and the Caddyfile) into the kb-secrets volume
+#   seaweedfs     starts with those identities
+#   kb-provision  creates the bucket, the kb config and every KB in KB_NAMES (add-only)
+#   kb            cron: compile, lint, backup, stubs for each KB
+#   kb-mcp        one MCP server per KB over HTTP, each with its own token
+#   caddy         HTTPS for s3.<DOMAIN> and mcp.<DOMAIN> (only with --profile https)
+
+name: agent2kb
+
+x-kb: &kb
+  build:
+    context: .
+    args:
+      KB_EXTRAS: ${KB_EXTRAS:-all}
+      INSTALL_CLIS: ${INSTALL_CLIS:-1}
+  image: agent2kb:local
+  environment: &kb-env
+    TZ: ${TZ:-UTC}
+
+services:
+  # One-shot, every time `up` runs: create what is missing in the secrets volume. Never
+  # replaces an existing key.
+  kb-init:
+    <<: *kb
+    restart: "no"
+    command: ["a2kb", "bootstrap", "init"]
+    environment:
+      <<: *kb-env
+      KB_NAMES: ${KB_NAMES:-research}
+      KB_MCP_KBS: ${KB_MCP_KBS:-}
+      KB_BUCKET_NAME: ${KB_BUCKET_NAME:-kb-data}
+      KB_S3_MODE: ${KB_S3_MODE:-bundled}
+      DOMAIN: ${DOMAIN:-}
+      ACME_EMAIL: ${ACME_EMAIL:-}
+    volumes:
+      # the only service that writes keys; it also runs `a2kb bootstrap rotate|revoke`
+      - kb-secrets:/secrets
+      - kb-s3conf:/s3conf
+      - kb-connect:/connect
+      - kb-mcpkeys:/mcpkeys
+      - kb-proxy:/proxy
+
+  # SeaweedFS reads its identities only when it starts. KB_NAMES is passed in below solely
+  # so that editing it in .env makes `docker compose up -d` recreate this container (after
+  # kb-init has written the new identities); SeaweedFS itself ignores the variable.
+  seaweedfs:
+    image: chrislusf/seaweedfs:4.48@sha256:4e61d15fd35994cb1e43e1e553dff106794841fd9a99ade2fc8c8bfce4d7872d
+    restart: unless-stopped
+    depends_on:
+      kb-init:
+        condition: service_completed_successfully
+    # -ip is the address the master, volume server and filer advertise to each other and to
+    # clients; the service name is stable on the compose network. -ip.bind=0.0.0.0 listens on
+    # every interface so the published port and other containers can reach it.
+    command: >
+      server -dir=/data -ip=seaweedfs -ip.bind=0.0.0.0 -filer -s3 -s3.port=8333
+      -s3.config=/s3conf/s3.json -master.volumeSizeLimitMB=1024
+    environment:
+      KB_NAMES: ${KB_NAMES:-research}
+      KB_BUCKET_NAME: ${KB_BUCKET_NAME:-kb-data}
+    volumes:
+      - seaweed-data:/data
+      - kb-s3conf:/s3conf:ro
+    healthcheck:
+      # Any HTTP answer (403 without a key) means the S3 gateway is listening.
+      test: ["CMD-SHELL", "wget -S -q -O /dev/null http://127.0.0.1:8333/ 2>&1 | grep -q 'HTTP/'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 15s
+    ports:
+      # Loopback by default. Other machines (a phone running Obsidian) need HTTPS: set DOMAIN
+      # and use the https profile, or set KB_BIND=0.0.0.0 and accept plain HTTP.
+      - "${KB_BIND:-127.0.0.1}:${KB_S3_PORT:-8333}:8333"
+
+  # One-shot: wait for S3, then bucket + config + KBs. Safe to run again; existing KBs and
+  # config values are kept (KB_RECONFIGURE=1 applies the LLM and language settings).
+  kb-provision:
+    <<: *kb
+    restart: "no"
+    depends_on:
+      kb-init:
+        condition: service_completed_successfully
+    command: ["a2kb", "bootstrap", "provision", "--wait", "180"]
+    environment:
+      <<: *kb-env
+      KB_NAMES: ${KB_NAMES:-research}
+      KB_BUCKET_NAME: ${KB_BUCKET_NAME:-kb-data}
+      KB_S3_MODE: ${KB_S3_MODE:-bundled}
+      KB_LLM: ${KB_LLM:-}            # unset: claude (new config only; not compared)
+      KB_LLM_MODEL: ${KB_LLM_MODEL:-}
+      KB_LLM_API_KEY: ${KB_LLM_API_KEY:-}
+      KB_LLM_OLLAMA_HOST: ${KB_LLM_OLLAMA_HOST:-}
+      KB_LANGUAGE: ${KB_LANGUAGE:-}  # unset: en (new config only; not compared)
+      KB_RECONFIGURE: ${KB_RECONFIGURE:-}
+      KB_EXT_S3_ENDPOINT: ${KB_EXT_S3_ENDPOINT:-}
+      KB_EXT_S3_REGION: ${KB_EXT_S3_REGION:-}
+      KB_EXT_S3_BUCKET: ${KB_EXT_S3_BUCKET:-}
+      KB_EXT_S3_ACCESS_KEY: ${KB_EXT_S3_ACCESS_KEY:-}
+      KB_EXT_S3_SECRET_KEY: ${KB_EXT_S3_SECRET_KEY:-}
+      KB_EXT_S3_PRESET: ${KB_EXT_S3_PRESET:-}
+      KB_EXT_S3_CREATE_BUCKET: ${KB_EXT_S3_CREATE_BUCKET:-}
+      # Where the kb containers reach S3 when SeaweedFS runs elsewhere (default http://seaweedfs:8333);
+      # stored in the kb config when a KB is created, so set it before the first `up`
+      KB_S3_INTERNAL_ENDPOINT: ${KB_S3_INTERNAL_ENDPOINT:-}
+    volumes:
+      - kb-secrets:/secrets:ro
+      - kb-home:/home/kb
+
+  # Scheduled jobs. The crontab is generated at start from the KBs in the config; to use
+  # your own, mount it at /etc/kb/crontab (docs/docker.md).
+  kb:
+    <<: *kb
+    restart: unless-stopped
+    depends_on:
+      kb-provision:
+        condition: service_completed_successfully
+    environment:
+      <<: *kb-env
+      KB_NAMES: ${KB_NAMES:-research}
+      KB_MCP_KBS: ${KB_MCP_KBS:-}
+      KB_CRON_DIGEST: ${KB_CRON_DIGEST:-}
+      # What `a2kb connect` prints for devices outside Docker
+      DOMAIN: ${DOMAIN:-}
+      KB_PUBLIC_HOST: ${KB_PUBLIC_HOST:-}
+      KB_PUBLIC_S3_URL: ${KB_PUBLIC_S3_URL:-}
+      KB_PUBLIC_MCP_URL: ${KB_PUBLIC_MCP_URL:-}
+      KB_S3_PORT: ${KB_S3_PORT:-8333}
+    # For KB_LLM=ollama running on the Docker host (Linux needs this mapping)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      # Logs and local backups, one directory per KB
+      - kb-data:/data
+      # kb config, and the claude / codex logins, so they survive container re-creation
+      - kb-home:/home/kb
+      # `a2kb connect` reads the Obsidian keys and MCP tokens from here. The S3 admin key is in
+      # kb-secrets, which this service (it runs LLM CLIs on web content) does not mount.
+      - kb-connect:/connect:ro
+    healthcheck:
+      # Config, S3 reachability and the LLM login for the first KB; no write probe. Reports
+      # unhealthy until you have logged in (KB_LLM=claude or codex).
+      test: ["CMD-SHELL", "a2kb bootstrap health"]
+      interval: 10m
+      timeout: 60s
+      retries: 2
+      start_period: 90s
+
+  # MCP over HTTP for the KBs in KB_MCP_KBS (default: all), one port and one token per KB,
+  # read-only unless KB_MCP_ALLOW_* says otherwise. Ports 8765-8774.
+  kb-mcp:
+    <<: *kb
+    restart: unless-stopped
+    depends_on:
+      kb-provision:
+        condition: service_completed_successfully
+    command: ["a2kb", "bootstrap", "mcp-serve"]
+    environment:
+      <<: *kb-env
+      KB_NAMES: ${KB_NAMES:-research}
+      KB_MCP_KBS: ${KB_MCP_KBS:-}
+      KB_MCP_ALLOW_LLM: ${KB_MCP_ALLOW_LLM:-}
+      KB_MCP_ALLOW_WRITE: ${KB_MCP_ALLOW_WRITE:-}
+      KB_MCP_INGEST_DOMAINS: ${KB_MCP_INGEST_DOMAINS:-}
+      DOMAIN: ${DOMAIN:-}
+      KB_PUBLIC_HOST: ${KB_PUBLIC_HOST:-}
+      KB_PUBLIC_MCP_URL: ${KB_PUBLIC_MCP_URL:-}
+    volumes:
+      # the kb config (the per-KB S3 keys) is read-only here; no admin key, no Obsidian keys.
+      # kb-home also holds the claude / codex logins, needed only for KB_MCP_ALLOW_LLM with a
+      # CLI provider; docs/docker.md shows an override that mounts only ~/.kb.
+      - kb-home:/home/kb:ro
+      - kb-mcpkeys:/mcpkeys:ro
+    healthcheck:
+      test: ["CMD-SHELL", "a2kb bootstrap mcp-health"]
+      interval: 30s
+      timeout: 20s
+      retries: 3
+      start_period: 20s
+    ports:
+      - "${KB_BIND:-127.0.0.1}:8765-8774:8765-8774"
+
+  # Automatic HTTPS: s3.<DOMAIN> -> SeaweedFS, mcp.<DOMAIN>/<kb>/mcp -> that KB's MCP server.
+  # Start with `docker compose --profile https up -d` (or COMPOSE_PROFILES=https in .env);
+  # needs DOMAIN, DNS records for s3.<DOMAIN> and mcp.<DOMAIN>, and ports 80 and 443 open.
+  caddy:
+    profiles: ["https"]
+    image: caddy:2.11.7-alpine@sha256:d8542f48d34a9cf4e4c11a478865229840e87e4c96ea3f439101f31a5d35f75f
+    restart: unless-stopped
+    depends_on:
+      kb-init:
+        condition: service_completed_successfully
+    command: ["caddy", "run", "--config", "/proxy/Caddyfile", "--adapter", "caddyfile"]
+    volumes:
+      - kb-proxy:/proxy:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+
+volumes:
+  kb-data:
+  kb-home:
+  kb-secrets:   # keys.json: every key incl. the S3 admin key (kb-init, kb-provision only)
+  kb-s3conf:    # s3.json for SeaweedFS
+  kb-connect:   # Obsidian keys and MCP tokens, for `a2kb connect` in the kb service
+  kb-mcpkeys:   # MCP ports and tokens, for kb-mcp
+  kb-proxy:
+  seaweed-data:
+  caddy-data:
+  caddy-config:

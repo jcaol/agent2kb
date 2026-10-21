@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720" role="img" aria-label="Illustration: a compiled agent2kb page in an Obsidian vault, with frontmatter tags, the article, wikilinks, a graph view and backlinks">
+<title>Illustration: a compiled agent2kb page in an Obsidian vault, with frontmatter tags, the article, wikilinks, a graph view and backlinks</title>
+<rect width="1200" height="720" rx="18" fill="#1e1e1e"/>
+<rect width="1200" height="44" rx="18" fill="#202020"/>
+<rect y="26" width="1200" height="18" fill="#202020"/>
+<circle cx="28" cy="22" r="7" fill="#ff5f57"/>
+<circle cx="50" cy="22" r="7" fill="#febc2e"/>
+<circle cx="72" cy="22" r="7" fill="#28c840"/>
+<text x="600" y="28" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="16" font-weight="500" fill="#999999" text-anchor="middle">notes  ·  wiki/20261019-Alpha-Project-Facts-0ef060b8.md</text>
+<rect y="44" width="250" height="676" fill="#202020"/>
+<line x1="250" y1="44" x2="250" y2="720" stroke="#363636"/>
+<text x="24" y="86" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#999999" text-anchor="start">▾ raw/</text>
+<text x="42" y="120" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#999999" text-anchor="start">20261019-Alpha-Proj…</text>
+<text x="24" y="154" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#dcddde" text-anchor="start">▾ wiki/</text>
+<rect x="10" y="166" width="230" height="32" rx="6" fill="#7c3aed" fill-opacity="0.35"/>
+<text x="42" y="188" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#ffffff" text-anchor="start">20261019-Alpha-Proj…</text>
+<text x="42" y="222" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#dcddde" text-anchor="start">index</text>
+<text x="42" y="256" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#dcddde" text-anchor="start">log</text>
+<text x="42" y="290" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#dcddde" text-anchor="start">▾ concepts/</text>
+<text x="60" y="324" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#dcddde" text-anchor="start">lantern</text>
+<text x="60" y="358" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#dcddde" text-anchor="start">markdown</text>
+<text x="60" y="392" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#dcddde" text-anchor="start">release-cadence</text>
+<text x="60" y="426" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="400" fill="#dcddde" text-anchor="start">team-rituals</text>
+<text x="24" y="460" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="600" fill="#999999" text-anchor="start">▸ outputs/</text>
+<rect x="280" y="64" width="560" height="168" rx="10" fill="#262626" stroke="#363636"/>
+<text x="298" y="96" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="500" fill="#999999" text-anchor="start">source</text>
+<text x="440" y="96" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="400" fill="#dcddde" text-anchor="start">examples/first-note.md</text>
+<text x="298" y="132" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="500" fill="#999999" text-anchor="start">date</text>
+<text x="440" y="132" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="400" fill="#dcddde" text-anchor="start">2026-10-19</text>
+<text x="298" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="500" fill="#999999" text-anchor="start">source_kind</text>
+<text x="440" y="168" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="400" fill="#dcddde" text-anchor="start">primary</text>
+<text x="298" y="204" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="500" fill="#999999" text-anchor="start">tags</text>
+<text x="440" y="204" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="16" font-weight="400" fill="#dcddde" text-anchor="start"></text>
+<rect x="440" y="190" width="78.5" height="28" rx="14" fill="#3b2f63"/>
+<text x="479.25" y="209" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#d8ccff" text-anchor="middle">#alpha</text>
+<rect x="526.5" y="190" width="183.5" height="28" rx="14" fill="#3b2f63"/>
+<text x="618.25" y="209" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#d8ccff" text-anchor="middle">#release-cadence</text>
+<rect x="718.0" y="190" width="68.0" height="28" rx="14" fill="#3b2f63"/>
+<text x="752.0" y="209" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="500" fill="#d8ccff" text-anchor="middle">#docs</text>
+<text x="290" y="284" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="34" font-weight="800" fill="#ffffff" text-anchor="start">Alpha Project Facts</text>
+<text x="290" y="318" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="19" fill="#dcddde"><tspan fill="#dcddde">The alpha project, codenamed </tspan><tspan fill="#a78bfa">Lantern</tspan><tspan fill="#dcddde">, ships a release</tspan></text>
+<text x="290" y="346" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="19" fill="#dcddde"><tspan fill="#dcddde">every six weeks; its docs are written in </tspan><tspan fill="#a78bfa">Markdown</tspan><tspan fill="#dcddde">.</tspan></text>
+<text x="290" y="398" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#ffffff" text-anchor="start">Key facts</text>
+<circle cx="298" cy="428" r="3.5" fill="#999999"/>
+<text x="314" y="434" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#dcddde"><tspan fill="#dcddde">Started 15 January 2026 by a team of four</tspan></text>
+<circle cx="298" cy="460" r="3.5" fill="#999999"/>
+<text x="314" y="466" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#dcddde"><tspan fill="#dcddde">Releases every six weeks: </tspan><tspan fill="#a78bfa">[[Release Cadence]]</tspan></text>
+<circle cx="298" cy="492" r="3.5" fill="#999999"/>
+<text x="314" y="498" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#dcddde"><tspan fill="#dcddde">Weekly review on Tuesdays: </tspan><tspan fill="#a78bfa">[[Team Rituals]]</tspan></text>
+<circle cx="298" cy="524" r="3.5" fill="#999999"/>
+<text x="314" y="530" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" fill="#dcddde"><tspan fill="#dcddde">Named after a </tspan><tspan fill="#a78bfa">[[Lantern]]</tspan><tspan fill="#dcddde">: it helps you find things</tspan></text>
+<text x="290" y="590" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="25" font-weight="700" fill="#ffffff" text-anchor="start">Related concepts</text>
+<text x="290" y="626" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="500"><tspan fill="#a78bfa" xml:space="preserve">[[Lantern]]</tspan><tspan fill="#a78bfa" xml:space="preserve">   [[Markdown]]</tspan><tspan fill="#6b6b6b" xml:space="preserve">   [[Bucket Storage]]</tspan><tspan fill="#999999" xml:space="preserve"> (ghost link)</tspan></text>
+<text x="290" y="668" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="15" font-weight="400" fill="#999999" text-anchor="start">Compiled by a2kb from 1 raw source  ·  answers cite this page</text>
+<rect x="880" y="64" width="300" height="372" rx="10" fill="#262626" stroke="#363636"/>
+<text x="898" y="94" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#dcddde" text-anchor="start">Graph view</text>
+<line x1="1030" y1="250" x2="950" y2="170" stroke="#555555" stroke-width="1.6"/>
+<line x1="1030" y1="250" x2="1105" y2="165" stroke="#555555" stroke-width="1.6"/>
+<line x1="1030" y1="250" x2="1100" y2="330" stroke="#555555" stroke-width="1.6"/>
+<line x1="1030" y1="250" x2="945" y2="340" stroke="#555555" stroke-width="1.6"/>
+<line x1="1030" y1="250" x2="1050" y2="395" stroke="#555555" stroke-width="1.6"/>
+<line x1="1030" y1="250" x2="1035" y2="128" stroke="#555555" stroke-width="1.6"/>
+<line x1="950" y1="170" x2="1105" y2="165" stroke="#555555" stroke-width="1.6"/>
+<line x1="1100" y1="330" x2="945" y2="340" stroke="#555555" stroke-width="1.6"/>
+<circle cx="1030" cy="250" r="16" fill="#7c3aed"/>
+<text x="1030" y="284" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#999999" text-anchor="middle">Alpha Project Facts</text>
+<circle cx="950" cy="170" r="10" fill="#a78bfa"/>
+<text x="950" y="198" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#999999" text-anchor="middle">Lantern</text>
+<circle cx="1105" cy="165" r="10" fill="#a78bfa"/>
+<text x="1105" y="193" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#999999" text-anchor="middle">Markdown</text>
+<circle cx="1100" cy="330" r="10" fill="#a78bfa"/>
+<text x="1100" y="358" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#999999" text-anchor="middle">Release Cadence</text>
+<circle cx="945" cy="340" r="10" fill="#a78bfa"/>
+<text x="945" y="368" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#999999" text-anchor="middle">Team Rituals</text>
+<circle cx="1050" cy="395" r="7" fill="#6b6b6b"/>
+<text x="1050" y="420" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="13" font-weight="400" fill="#999999" text-anchor="middle">Bucket Storage</text>
+<circle cx="1035" cy="128" r="7" fill="#999999"/>
+<rect x="880" y="452" width="300" height="236" rx="10" fill="#262626" stroke="#363636"/>
+<text x="898" y="482" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="18" font-weight="700" fill="#dcddde" text-anchor="start">Backlinks  3</text>
+<text x="898" y="524" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="500" fill="#a78bfa" text-anchor="start">concepts/release-cadence</text>
+<text x="898" y="546" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#999999" text-anchor="start">concept page</text>
+<text x="898" y="578" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="500" fill="#a78bfa" text-anchor="start">concepts/lantern</text>
+<text x="898" y="600" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#999999" text-anchor="start">concept page</text>
+<text x="898" y="632" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="17" font-weight="500" fill="#a78bfa" text-anchor="start">index</text>
+<text x="898" y="654" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="14" font-weight="400" fill="#999999" text-anchor="start">KB index</text>
+</svg>

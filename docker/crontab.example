@@ -1,0 +1,45 @@
+# agent2kb scheduled tasks inside the container (supercronic): a template for a CUSTOM crontab.
+#
+# You do not need this file: the container generates a crontab from the KBs in its config
+# when it starts (compile every 15 minutes, daily lint, twice-daily backup, daily stubs).
+# Use it when you want different schedules: copy it, edit it, and mount it with a
+# docker-compose.override.yml next to docker-compose.yml:
+#
+#   services:
+#     kb:
+#       volumes:
+#         - ./crontab:/etc/kb/crontab:ro
+#
+# Same jobs as scripts/kb-crontab.example (keep the two in step), with the container paths.
+# Replace `research` with your KB names; for each further KB copy a job line and change the
+# KB name and the /data/<name> directory.
+#
+# Each job runs a wrapper from scripts/ with <project-dir> <profile>; the
+# wrapper writes its log to <project-dir>. Project directories live under /data
+# (the kb-data volume) and are created on start.
+#
+# Models are never named here: the profile decides which provider and model run
+# (see docs/configuration.md).
+#
+# Validate with:  docker compose run --rm -v ./crontab:/etc/kb/crontab:ro kb supercronic -test /etc/kb/crontab
+# Reload after editing (no restart needed):  docker compose kill -s USR2 kb
+
+# Compile: every 15 minutes. Returns in about 2 s without calling an LLM when
+# nothing changed.
+*/15 * * * * /opt/kb/scripts/kb-cron-compile.sh /data/research research
+
+# Lint: daily at 09:00. Structural checks only, no LLM tokens.
+0 9 * * * /opt/kb/scripts/kb-cron-lint.sh /data/research research
+
+# Backup: 02:30 and 14:30. Archives wiki/, outputs/ and raw/ to
+# /data/<project>/.backups/ (the kb-data volume, independent from S3) and keeps
+# the newest 30. Restore with `a2kb -p research restore --date ...`.
+30 2,14 * * * /opt/kb/scripts/kb-cron-backup.sh /data/research research
+
+# Stubs: daily at 03:00. Creates placeholder concept pages for frequently
+# mentioned wikilinks that have no page yet. Idempotent, no LLM tokens.
+0 3 * * * /opt/kb/scripts/kb-cron-stubs.sh /data/research research
+
+# Weekly digest (Sundays 04:00): uses the profile's `aux` model, so it costs a
+# few thousand tokens per run. Uncomment to enable.
+#0 4 * * 0 /opt/kb/scripts/kb-cron-digest.sh /data/research research

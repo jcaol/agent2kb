@@ -1,0 +1,16 @@
+title = "agent2kb gitleaks config"
+
+[extend]
+useDefault = true
+
+# Obviously fake credentials used by tests. Matched by value, so a real key
+# added to these files is still reported.
+[allowlist]
+description = "fake test credentials"
+regexes = [
+  '''SECRET-1234567890''',
+  '''ACCESS-1234567890''',
+  '''gsk-1234567890''',
+  '''ITSECRETKEY123456''',
+  '''ITACCESSKEY''',
+]

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" role="img" aria-label="agent2kb logo">
+<title>agent2kb</title>
+<defs><linearGradient id="logo-tile" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#312e81"/><stop offset=".55" stop-color="#4f46e5"/><stop offset="1" stop-color="#0d9488"/></linearGradient></defs>
+<rect x="4" y="4" width="120" height="120" rx="31" fill="url(#logo-tile)"/>
+<path d="M24 45h16m-16 25h16m40-13h20" fill="none" stroke="#e0e7ff" stroke-width="4"
+ stroke-linecap="round"/>
+<circle cx="20" cy="45" r="6" fill="#c7d2fe"/>
+<circle cx="20" cy="70" r="6" fill="#c7d2fe"/>
+<path d="M49 29h26l12 12v44H49a7 7 0 0 1-7-7V36a7 7 0 0 1 7-7Z" fill="#fff"/>
+<path d="M75 29v12h12" fill="#c7d2fe"/>
+<rect x="51" y="50" width="24" height="4.5" rx="2.25" fill="#818cf8"/>
+<rect x="51" y="61" width="28" height="4.5" rx="2.25" fill="#c7d2fe"/>
+<rect x="51" y="72" width="19" height="4.5" rx="2.25" fill="#c7d2fe"/>
+<path d="m96 50 10 7-10 7" fill="none" stroke="#5eead4" stroke-width="4" stroke-linecap="round"
+ stroke-linejoin="round"/>
+<circle cx="104" cy="81" r="5" fill="#5eead4"/>
+<path d="M100 73v3" stroke="#5eead4" stroke-width="4" stroke-linecap="round"/>
+</svg>

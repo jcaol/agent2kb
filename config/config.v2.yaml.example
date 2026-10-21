@@ -1,0 +1,44 @@
+# agent2kb USER-LEVEL configuration, format v2
+# Location: ~/.kb/config.yaml (or the file $KB_CONFIG points at)
+# Written for you by `a2kb setup`; `a2kb new <name>` adds KBs to it. Start from this file only
+# if you prefer to write it by hand, then run `a2kb doctor`.
+#
+# This file holds secrets: chmod 600 and never commit it. A project folder only needs a
+# pointer, `.kb/config.yaml` containing `kb: <name>` (see config/pointer.yaml.example).
+# Reference: docs/configuration.md
+
+version: 2
+
+storage:                       # the connection shared by every KB below
+  endpoint: "https://<account-id>.r2.cloudflarestorage.com"   # omit for AWS S3
+  region: auto
+  bucket: my-kb
+  access_key: "..."            # omit both keys to use the AWS credential chain
+  secret_key: "..."
+  checksum_mode: when_required # non-AWS providers; see docs/storage-providers.md
+
+llm:
+  provider: cli                # cli | ollama | gemini | groq | openrouter
+  command: claude              # claude or codex: uses that CLI's own login, no API key
+  # model: claude-haiku-5-5    # optional; the CLI's own default otherwise
+  # aux_model: claude-sonnet-5-5   # concept pages, lint reports, digest
+  # fallback_command: codex    # optional: used when the primary CLI is hard-down
+  #
+  # Fully local alternative:
+  # provider: ollama
+  # ollama_host: http://localhost:11434
+
+defaults:                      # any KB setting; new KBs are privacy-first
+  output_language: en
+  allow_jina_reader: false     # true = URLs you ingest are sent to jina.ai
+  allow_cloud_vision: false    # true = images are sent to a cloud vision model
+  # privacy_mode: true         # no ingest-time cloud calls; see docs/privacy.md
+
+kbs:
+  research: {}                 # prefix is automatic: kbs/research/
+  acme:
+    prefix: clients/acme/
+    storage: {access_key: "...", secret_key: "..."}   # only for per-KB isolation keys
+    output_language: zh-HK
+  # boss:
+  #   role: admin              # whole-bucket access; never autodetected, use -p boss

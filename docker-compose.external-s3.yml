@@ -1,0 +1,12 @@
+# Use your own S3 instead of the bundled SeaweedFS. Set KB_S3_MODE=external and the
+# KB_EXT_S3_* values in .env (see .env.example), then:
+#
+#   docker compose -f docker-compose.yml -f docker-compose.external-s3.yml up -d
+#
+# or put `COMPOSE_FILE=docker-compose.yml:docker-compose.external-s3.yml` in .env.
+# Full guide: docs/docker.md#use-your-own-s3
+
+services:
+  # Moved into a profile nobody enables: never started.
+  seaweedfs:
+    profiles: ["bundled-s3"]

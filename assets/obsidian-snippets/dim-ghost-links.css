@@ -1,0 +1,88 @@
+/* ===================================================================
+   agent2kb · dim-ghost-links.css
+   ===================================================================
+   Visually demote wikilinks that point to non-existent pages, so a
+   reader can tell at-a-glance which [[concepts]] are *real pages*
+   versus *ghost nodes* still waiting to be compiled.
+
+   Why this exists
+   ---------------
+   agent2kb intentionally allows orphan wikilinks — they are first-class
+   "ghost nodes" in Andrej Karpathy's compounding-wiki pattern: a
+   visible TODO that the next compile pass should pick up. See
+   `agent2kb/lint.py` docstring around line 30: orphan wikilinks are
+   treated as informational, not errors.
+
+   But undecorated, ghost links look identical to real ones — clicking
+   one in Obsidian's reading view drops you on a "Create new page"
+   prompt, which is misleading for read-only KB consumption (and for
+   anyone you ever share the vault with).
+
+   This snippet keeps the links clickable (so the create-on-click
+   behaviour still works for authors), but renders them dim +
+   strike-through so consumers immediately understand "not yet written".
+
+   Install
+   -------
+   1. Copy this file into  <vault>/.obsidian/snippets/dim-ghost-links.css
+   2. Obsidian → Settings → Appearance → CSS snippets → toggle ON.
+      Hit the refresh icon if it doesn't show up immediately.
+
+   Theme-agnostic — uses CSS variables (var(--text-muted), etc) so it
+   inherits from whatever theme you run.
+   =================================================================== */
+
+
+/* --- Reading view (rendered markdown) ----------------------------- */
+/* Obsidian tags broken-target wikilinks with `.is-unresolved` after
+   the page-existence check. Dim + strike them, but keep the cursor
+   as `help` so a hover reveals the "this is a ghost" affordance. */
+.markdown-rendered a.internal-link.is-unresolved {
+    color: var(--text-muted);
+    opacity: 0.55;
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+    text-decoration-color: var(--text-faint);
+    cursor: help;
+}
+
+/* Hover lifts the opacity so the user can still read it clearly when
+   they intend to interact, and switches strike to dashed underline
+   to signal "click will create a new page". */
+.markdown-rendered a.internal-link.is-unresolved:hover {
+    opacity: 0.9;
+    text-decoration: underline dashed;
+    text-decoration-color: var(--text-muted);
+}
+
+
+/* --- Live Preview / editing view ---------------------------------- */
+/* CodeMirror 6 marks unresolved wikilinks with the same .is-unresolved
+   class on its own span hierarchy. Aliased form
+   ([[slug|Display]]) needs the .cm-link-has-alias selector too. */
+.cm-s-obsidian span.cm-hmd-internal-link.is-unresolved,
+.cm-s-obsidian span.cm-hmd-internal-link.cm-link-has-alias.is-unresolved {
+    color: var(--text-muted) !important;
+    opacity: 0.6;
+    text-decoration: line-through;
+}
+
+
+/* --- Graph view --------------------------------------------------- */
+/* Make ghost nodes visibly fainter than real nodes in the graph so
+   the topology of "what's actually written" pops out. Obsidian
+   exposes `.graph-view.color-fill-unresolved` for the unresolved
+   node fill colour token. */
+.graph-view.color-fill-unresolved {
+    color: var(--text-faint);
+}
+
+
+/* --- Side panel: "Unlinked mentions" / "Outgoing links" ----------- */
+/* The right-pane panels list outgoing links by status. Ghost ones get
+   the same visual treatment so the panel is consistent with the body. */
+.tree-item.is-unresolved .tree-item-inner {
+    color: var(--text-muted);
+    opacity: 0.7;
+    font-style: italic;
+}

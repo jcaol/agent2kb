@@ -1,0 +1,66 @@
+name: Bug report
+description: Something does not work as documented
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please do not paste API keys, S3 keys or the contents of your `config.yaml`.
+        For security problems, use the private reporting described in SECURITY.md instead.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What did you run, what did you expect, what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. a2kb -p notes ingest --url https://example.com/...
+        2. a2kb -p notes compile
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: "`a2kb doctor` output"
+      description: Run `a2kb -p <kb> doctor --read-only` and paste the result (it does not print secrets).
+      render: text
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `a2kb --version`
+    validations:
+      required: true
+  - type: dropdown
+    id: install
+    attributes:
+      label: Installed how
+      options: [From source (pip install .), pip from PyPI, Docker backend]
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: OS and Python version
+      placeholder: Ubuntu 24.04, Python 3.12
+  - type: dropdown
+    id: storage
+    attributes:
+      label: S3 provider
+      options: [SeaweedFS, AWS S3, Cloudflare R2, Backblaze B2, MinIO, Wasabi, Other]
+  - type: dropdown
+    id: provider
+    attributes:
+      label: LLM provider (llm.provider)
+      options: [cli (claude), cli (codex), ollama, gemini, groq, openrouter, Other]
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs / traceback
+      description: Run with `a2kb -v` for the full traceback. Remove anything private.
+      render: text
