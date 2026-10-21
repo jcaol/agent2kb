@@ -21,7 +21,7 @@
 # Models are never named here: the profile decides which provider and model run
 # (see docs/configuration.md).
 #
-# Validate with:  docker compose run --rm -v ./crontab:/etc/kb/crontab:ro kb supercronic -test /etc/kb/crontab
+# Validate with:  docker compose run --rm -v ./crontab:/etc/kb/crontab:ro kb /usr/local/bin/supercronic -test /etc/kb/crontab
 # Reload after editing (no restart needed):  docker compose kill -s USR2 kb
 
 # Compile: every 15 minutes. Returns in about 2 s without calling an LLM when

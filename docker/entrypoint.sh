@@ -28,4 +28,6 @@ fi
 { grep -v '^[[:space:]]*#' "$CRONTAB" | grep -oE '/data/[A-Za-z0-9._-]+' || true; } \
     | sort -u | while read -r dir; do mkdir -p "$dir"; done
 
-exec supercronic -passthrough-logs "$CRONTAB"
+# Absolute path: as PID 1, supercronic re-executes itself through os.Args[0] to reap
+# zombies, and that fork does not search PATH ("Failed to fork exec: no such file").
+exec /usr/local/bin/supercronic -passthrough-logs "$CRONTAB"

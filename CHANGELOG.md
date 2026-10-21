@@ -6,6 +6,16 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.3.3] - 2026-10-21
+
+### Fixed
+
+- Docker backend: the `kb` service crash-looped with "Failed to fork exec: no such file or
+  directory", so no scheduled job ran. As PID 1, supercronic re-executes itself through the
+  path it was started with, without a `PATH` lookup; the entrypoint now starts it by its
+  absolute path, and the documented `supercronic -test` command does the same.
+- The test suite passes on GitHub Actions, where Typer forced coloured `--help` output.
+
 ## [0.3.2] - 2026-10-21
 
 Initial public release of **agent2kb**, a headless knowledge compiler for agent teams.

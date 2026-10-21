@@ -4,6 +4,14 @@ import os
 
 import pytest
 
+# Typer forces coloured --help output when it sees GITHUB_ACTIONS (or FORCE_COLOR), and the
+# ANSI codes split flags such as "--http" apart in the captured text. It reads this switch
+# at import time, so it is set here, before any test imports agent2kb.main.
+os.environ["_TYPER_FORCE_DISABLE_TERMINAL"] = "1"
+# Rich forces colour for the app's own console output on the same signals.
+for _name in ("FORCE_COLOR", "PY_COLORS", "CLICOLOR_FORCE"):
+    os.environ.pop(_name, None)
+
 
 @pytest.fixture(autouse=True)
 def _isolate_from_kb_environment(monkeypatch):

@@ -287,3 +287,13 @@ def test_cla_workflow_is_pinned_and_never_runs_pull_request_code():
     assert not any("checkout" in u for u in uses) and not any("run" in s for s in steps)
     assert "CLA.md" in steps[0]["with"]["path-to-document"]
     assert (ROOT / "CLA.md").exists()
+
+
+def test_supercronic_is_started_by_absolute_path():
+    # As PID 1 supercronic forks itself via os.Args[0] without a PATH lookup, so a bare
+    # "supercronic" crash-loops the kb container with "Failed to fork exec".
+    entry = (ROOT / "docker/entrypoint.sh").read_text()
+    assert "exec /usr/local/bin/supercronic " in entry
+    assert "exec supercronic " not in entry
+    for doc in ("docs/docker.md", "docker/crontab.example"):
+        assert " kb supercronic -test" not in (ROOT / doc).read_text().replace("\n", " ")

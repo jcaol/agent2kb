@@ -221,7 +221,7 @@ services:
       - ./crontab:/etc/kb/crontab:ro
 ```
 
-Validate it with `docker compose run --rm -v ./crontab:/etc/kb/crontab:ro kb supercronic -test
+Validate it with `docker compose run --rm -v ./crontab:/etc/kb/crontab:ro kb /usr/local/bin/supercronic -test
 /etc/kb/crontab`; reload without a restart with `docker compose kill -s USR2 kb`. The KB config
 decides which model runs; crontabs never name one.
 
